@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MedHelper — Architecture Flow Diagram</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#header {
+  padding: 12px 20px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+#header h1 { font-size: 16px; font-weight: 600; color: #e6edf3; }
+#header p  { font-size: 12px; color: #7d8590; }
+#body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Left sidebar ──────────────────────────────── */
+#sidebar {
+  width: 190px;
+  min-width: 190px;
+  background: #161b22;
+  border-right: 1px solid #30363d;
+  padding: 14px 10px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+#sidebar h4 {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7d8590;
+  padding: 0 6px;
+  margin-bottom: 10px;
+}
+.flow-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 10px;
+  margin-bottom: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #8b949e;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.3;
+}
+.flow-btn:hover { background: #21262d; color: #e6edf3; border-color: #30363d; }
+.flow-btn.active {
+  background: color-mix(in srgb, var(--fc) 18%, #21262d);
+  border-color: var(--fc);
+  color: #e6edf3;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fc);
+  flex-shrink: 0;
+}
+.sidebar-divider { border: none; border-top: 1px solid #30363d; margin: 10px 6px; }
+
+/* ── Diagram ───────────────────────────────────── */
+#diagram-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+#diagram {
+  background: #0d1117;
+  border-radius: 10px;
+  border: 1px solid #21262d;
+  flex-shrink: 0;
+}
+.comp-rect {
+  rx: 7;
+  stroke-width: 1.5;
+  fill: color-mix(in srgb, var(--lc) 14%, #161b22);
+  stroke: color-mix(in srgb, var(--lc) 45%, #30363d);
+  transition: opacity 0.25s, fill 0.25s, stroke 0.25s;
+}
+.comp-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #c9d1d9;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.comp-sublabel {
+  font-size: 9px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: #6e7681;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.layer-strip {
+  rx: 4;
+  fill: color-mix(in srgb, var(--lc) 7%, #0d1117);
+  stroke: color-mix(in srgb, var(--lc) 20%, #0d1117);
+  stroke-width: 1;
+}
+.layer-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  text-anchor: start;
+  fill: color-mix(in srgb, var(--lc) 60%, #6e7681);
+}
+.comp-g { cursor: default; }
+.comp-g.dimmed .comp-rect  { opacity: 0.12; }
+.comp-g.dimmed .comp-label { opacity: 0.12; }
+.comp-g.dimmed .comp-sublabel { opacity: 0.12; }
+.comp-g.active .comp-rect  {
+  fill: color-mix(in srgb, var(--lc) 28%, #161b22);
+  stroke: var(--lc);
+  stroke-width: 2;
+}
+.flow-path { fill: none; stroke-width: 2; opacity: 0; transition: opacity 0.3s; }
+.flow-path.show { opacity: 1; }
+.step-bubble { opacity: 0; transition: opacity 0.3s; }
+.step-bubble.show { opacity: 1; }
+.step-text {
+  font-size: 8.5px; font-weight: 700; text-anchor: middle;
+  dominant-baseline: middle; fill: #0d1117; pointer-events: none;
+}
+.arrow-lbl {
+  font-size: 9px; text-anchor: middle; dominant-baseline: middle;
+  opacity: 0; transition: opacity 0.3s; cursor: default;
+  fill: #c9d1d9;
+}
+.arrow-lbl.show { opacity: 1; }
+
+/* ── Right panel ───────────────────────────────── */
+#step-panel {
+  width: 310px;
+  min-width: 310px;
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  padding: 14px 14px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+#panel-title {
+  font-size: 13px; font-weight: 600; color: #e6edf3;
+  margin-bottom: 4px;
+}
+#panel-desc {
+  font-size: 11px; color: #7d8590; margin-bottom: 14px; line-height: 1.5;
+}
+.step-card {
+  padding: 9px 11px;
+  margin-bottom: 7px;
+  background: #21262d;
+  border-radius: 7px;
+  border-left: 3px solid #30363d;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.step-card:hover { background: #2d333b; }
+.step-card.hi {
+  border-left-color: var(--fc);
+  background: color-mix(in srgb, var(--fc) 14%, #21262d);
+}
+.step-n {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.6px;
+  text-transform: uppercase; color: #7d8590; margin-bottom: 3px;
+}
+.step-route {
+  font-size: 11px; font-weight: 600; color: #e6edf3; margin-bottom: 3px;
+}
+.step-route .sep { color: #484f58; }
+.step-method {
+  font-size: 10.5px; font-family: 'SF Mono', 'Fira Code', monospace;
+  color: #79c0ff; margin-bottom: 3px;
+}
+.step-ann { font-size: 10.5px; color: #8b949e; line-height: 1.4; }
+#empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; gap: 10px;
+  color: #484f58; font-size: 12px; text-align: center;
+}
+
+/* ── Legend ────────────────────────────────────── */
+#legend {
+  display: flex; gap: 18px; padding: 9px 20px;
+  background: #161b22; border-top: 1px solid #30363d;
+  flex-wrap: wrap; flex-shrink: 0;
+}
+.leg { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: #7d8590; }
+.leg-sq { width: 10px; height: 10px; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>MedHelper — Architecture Flow Diagram</h1>
+  <p>Select a workflow to highlight the component flow and data passing</p>
+</div>
+
+<div id="body">
+  <div id="sidebar">
+    <h4>Workflows</h4>
+    <div id="flow-btns"></div>
+  </div>
+
+  <div id="diagram-wrap">
+    <svg id="diagram" width="1060" height="672"></svg>
+  </div>
+
+  <div id="step-panel">
+    <div id="empty-state">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+        <path d="M13 2v7h7"/>
+      </svg>
+      <span>Select a workflow<br>to see step details</span>
+    </div>
+    <div id="panel-content" style="display:none">
+      <div id="panel-title"></div>
+      <div id="panel-desc"></div>
+      <div id="steps-list"></div>
+    </div>
+  </div>
+</div>
+
+<div id="legend">
+  <div class="leg"><div class="leg-sq" style="background:#388bfd"></div>UI Screens</div>
+  <div class="leg"><div class="leg-sq" style="background:#bc8cff"></div>State (AppState)</div>
+  <div class="leg"><div class="leg-sq" style="background:#3fb950"></div>Services</div>
+  <div class="leg"><div class="leg-sq" style="background:#f0883e"></div>Repositories</div>
+  <div class="leg"><div class="leg-sq" style="background:#58a6ff"></div>Storage</div>
+  <div class="leg"><div class="leg-sq" style="background:#ff7b72"></div>External / Platform</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// DATA — edit this JSON to add components, layers, and flows
+// ═══════════════════════════════════════════════════════════════════
+const DATA = {
+
+  layers: [
+    { id:"ui",    label:"UI Screens",          color:"#388bfd", y:14,  h:58 },
+    { id:"state", label:"State",               color:"#bc8cff", y:96,  h:58 },
+    { id:"svc",   label:"Services",            color:"#3fb950", y:178, h:58 },
+    { id:"repo",  label:"Repositories",        color:"#f0883e", y:260, h:58 },
+    { id:"store", label:"Storage",             color:"#58a6ff", y:342, h:58 },
+    { id:"ext",   label:"External / Platform", color:"#ff7b72", y:424, h:58 }
+  ],
+
+  // x,y = top-left of box; all boxes are 120 × 42
+  components: {
+    welcome:      { label:"Welcome",        sub:"Screen",              layer:"ui",    x:10,  y:22 },
+    setup:        { label:"Setup",          sub:"Screen",              layer:"ui",    x:143, y:22 },
+    today:        { label:"Today",          sub:"Screen",              layer:"ui",    x:276, y:22 },
+    dose_alert:   { label:"Dose Alert",     sub:"Screen",              layer:"ui",    x:409, y:22 },
+    prescription: { label:"Prescriptions", sub:"Screen",              layer:"ui",    x:542, y:22 },
+    edit_med:     { label:"Edit Med",       sub:"Screen",              layer:"ui",    x:675, y:22 },
+    low_stock:    { label:"Low Stock",      sub:"Alert Screen",        layer:"ui",    x:808, y:22 },
+    settings:     { label:"Settings",       sub:"Screen",              layer:"ui",    x:933, y:22 },
+
+    app_state:    { label:"AppState",       sub:"ChangeNotifier",      layer:"state", x:470, y:104 },
+
+    notif_sched:  { label:"Notification",   sub:"Scheduler",           layer:"svc",   x:10,  y:186 },
+    notif_svc:    { label:"Notification",   sub:"Service",             layer:"svc",   x:163, y:186 },
+    sched_engine: { label:"Schedule",       sub:"Engine",              layer:"svc",   x:316, y:186 },
+    stock_svc:    { label:"Stock",          sub:"Service",             layer:"svc",   x:469, y:186 },
+    drug_svc:     { label:"Drug",           sub:"Service",             layer:"svc",   x:622, y:186 },
+    dmd_download: { label:"DmdDownload",    sub:"Service",             layer:"svc",   x:775, y:186 },
+
+    med_repo:     { label:"Medication",     sub:"Repository",          layer:"repo",  x:250, y:268 },
+    dose_repo:    { label:"Dose",           sub:"Repository",          layer:"repo",  x:470, y:268 },
+    secure_svc:   { label:"SecureStorage",  sub:"Service",             layer:"repo",  x:690, y:268 },
+
+    sqlite:       { label:"SQLite",         sub:"(sqflite)",           layer:"store", x:250, y:350 },
+    shared_prefs: { label:"Shared",         sub:"Preferences",         layer:"store", x:470, y:350 },
+    secure_store: { label:"Secure",         sub:"Storage",             layer:"store", x:690, y:350 },
+
+    phone_notifs: { label:"Phone",          sub:"Notifications",       layer:"ext",   x:130, y:432 },
+    bg_tasks:     { label:"Background",     sub:"Tasks (Workmanager)", layer:"ext",   x:470, y:432 },
+    dmd_api:      { label:"NHS dm+d",       sub:"API",                 layer:"ext",   x:810, y:432 }
+  },
+
+  flows: {
+    new_offline: {
+      label: "New Offline User",
+      color: "#3fb950",
+      desc:  "User selects Offline mode on the Welcome screen, accepts the disclaimer, then completes profile setup.",
+      steps: [
+        { from:"welcome",    to:"app_state",    method:"setOfflineMode(true)",           ann:"Persists offlineMode=true; cancels any existing notifications via NotificationScheduler" },
+        { from:"app_state",  to:"shared_prefs", method:"setBool('offlineMode', true)",   ann:"bool offlineMode → SharedPreferences" },
+        { from:"welcome",    to:"app_state",    method:"acceptDisclaimer()",             ann:"Sets _disclaimerAccepted=true; calls notifyListeners() → main.dart routes to SetupScreen" },
+        { from:"app_state",  to:"shared_prefs", method:"setBool('disclaimerAccepted')",  ann:"bool disclaimerAccepted → SharedPreferences" },
+        { from:"setup",      to:"app_state",    method:"savePatientDetails(name, email)",ann:"String name, String email from form fields" },
+        { from:"app_state",  to:"secure_svc",   method:"savePatientDetails()",           ann:"Encrypted write via flutter_secure_storage" },
+        { from:"secure_svc", to:"secure_store", method:"write(key, value)",             ann:"AES-encrypted key-value pairs" },
+        { from:"app_state",  to:"shared_prefs", method:"setBool('setupComplete', true)", ann:"Triggers notifyListeners() → main.dart shows main shell" }
+      ]
+    },
+
+    new_online: {
+      label: "New Online User",
+      color: "#388bfd",
+      desc:  "User selects Real-time mode, app requests notification permission, user completes profile setup.",
+      steps: [
+        { from:"welcome",    to:"app_state",    method:"setOfflineMode(false)",          ann:"offlineMode=false; _rescheduleNotifications() runs (nothing to schedule yet)" },
+        { from:"welcome",    to:"app_state",    method:"acceptDisclaimer()",             ann:"disclaimerAccepted=true; routes to SetupScreen" },
+        { from:"app_state",  to:"shared_prefs", method:"setBool('disclaimerAccepted')",  ann:"bool → SharedPreferences" },
+        { from:"settings",   to:"notif_svc",    method:"hasPermission()",               ann:"Checks if notification permission already granted (also triggers iOS system prompt on first run)" },
+        { from:"notif_svc",  to:"phone_notifs", method:"requestPermissions()",          ann:"iOS: shows system permission dialog. Android 13+: checks areNotificationsEnabled()" },
+        { from:"setup",      to:"app_state",    method:"savePatientDetails(name, email)",ann:"String name, String email" },
+        { from:"app_state",  to:"secure_svc",   method:"savePatientDetails()",           ann:"Encrypted write" },
+        { from:"app_state",  to:"shared_prefs", method:"setBool('setupComplete', true)", ann:"Routes to main app shell" }
+      ]
+    },
+
+    setup_prescription: {
+      label: "Set Up Prescription",
+      color: "#bc8cff",
+      desc:  "User adds a new medicine. App generates a dose schedule and queues notifications.",
+      steps: [
+        { from:"prescription", to:"edit_med",     method:"Navigator.push()",             ann:"Navigates to EditMedicationScreen with blank Medication object" },
+        { from:"edit_med",     to:"drug_svc",     method:"getDrugSuggestions(query)",    ann:"String query → List<Drug> from in-memory dm+d map" },
+        { from:"edit_med",     to:"app_state",    method:"saveMedication(medication)",   ann:"Medication object: name, times, dosesPerDay, quantity, quantityPerDose, startDate" },
+        { from:"app_state",    to:"med_repo",     method:"insert(medication)",           ann:"Medication → SQLite via sqflite" },
+        { from:"med_repo",     to:"sqlite",       method:"db.insert('medications', …)",  ann:"Serialised Medication map" },
+        { from:"app_state",    to:"sched_engine", method:"generateDoses(med, now, +7d)", ann:"Medication, DateTime start, DateTime end → List<DoseEvent>" },
+        { from:"app_state",    to:"dose_repo",    method:"insert(dose) × N",             ann:"One DoseEvent per scheduled time per day" },
+        { from:"dose_repo",    to:"sqlite",       method:"db.insert('doses', …)",        ann:"Serialised DoseEvent map" },
+        { from:"app_state",    to:"notif_sched",  method:"reschedule(meds, doses, …)",   ann:"List<Medication>, List<DoseEvent>, gracePeriodMinutes, offlineMode" },
+        { from:"notif_sched",  to:"notif_svc",    method:"scheduleDose(id, title, body)",ann:"Groups doses by minute-slot; one reminder + one overdue alert per slot" },
+        { from:"notif_svc",    to:"phone_notifs", method:"zonedSchedule(…)",             ann:"TZDateTime, NotificationDetails (channel, priority, interruptionLevel)" }
+      ]
+    },
+
+    take_dose: {
+      label: "Dose Alert → Take",
+      color: "#3fb950",
+      desc:  "Notification fires, user opens app, taps Take. Dose is recorded and stock is deducted.",
+      steps: [
+        { from:"phone_notifs", to:"dose_alert",  method:"User opens app",               ann:"Phone notification banner → user taps → app foregrounds" },
+        { from:"app_state",    to:"dose_alert",  method:"doseAlerts getter",             ann:"Returns pending doses where scheduled < now − gracePeriod. AppBar turns red." },
+        { from:"dose_alert",   to:"app_state",   method:"takeDose(doseId)",              ann:"String doseId" },
+        { from:"app_state",    to:"stock_svc",   method:"parseQuantity(quantityPerDose)",ann:"String → double (e.g. '1 tablet' → 1.0)" },
+        { from:"app_state",    to:"med_repo",    method:"update(medication)",            ann:"Medication with decremented stock quantity" },
+        { from:"med_repo",     to:"sqlite",      method:"db.update('medications', …)",   ann:"Updated quantity field" },
+        { from:"app_state",    to:"dose_repo",   method:"update(dose)",                  ann:"DoseEvent: status='taken', taken=DateTime.now()" },
+        { from:"dose_repo",    to:"sqlite",      method:"db.update('doses', …)",         ann:"status, taken timestamp" },
+        { from:"app_state",    to:"notif_sched", method:"reschedule(…)",                 ann:"Cancels all; rebuilds queue without the taken dose" },
+        { from:"notif_sched",  to:"notif_svc",   method:"cancelAll() + scheduleDose(…)", ann:"Slot recalculated — taken dose removed from grouping" }
+      ]
+    },
+
+    pause_dose: {
+      label: "Dose Alert → Pause",
+      color: "#f0883e",
+      desc:  "User pauses a dose for a set duration. A fresh reminder is scheduled at the pause-until time.",
+      steps: [
+        { from:"dose_alert",  to:"dose_alert",  method:"_selectPauseDuration(context)",  ann:"SimpleDialog returns Duration: 15min / 30min / 1h / 2h / 4h" },
+        { from:"dose_alert",  to:"app_state",   method:"pauseDose(doseId, duration)",    ann:"String doseId, Duration duration" },
+        { from:"app_state",   to:"dose_repo",   method:"update(dose)",                   ann:"DoseEvent: status='paused', pausedUntil=now+duration" },
+        { from:"dose_repo",   to:"sqlite",      method:"db.update('doses', …)",          ann:"status='paused', pausedUntil timestamp" },
+        { from:"app_state",   to:"notif_sched", method:"reschedule(…)",                  ann:"Paused dose moves from original slot to pausedUntil slot" },
+        { from:"notif_sched", to:"notif_svc",   method:"scheduleDose(id, …) at pausedUntil", ann:"New reminder at pausedUntil; overdue alert at pausedUntil + gracePeriod" },
+        { from:"notif_svc",   to:"phone_notifs",method:"zonedSchedule(pausedUntil, …)", ann:"Replaces original notification with deferred one" }
+      ]
+    },
+
+    skip_dose: {
+      label: "Dose Alert → Skip",
+      color: "#8b949e",
+      desc:  "User skips a dose. It is recorded as skipped and removed from the notification queue.",
+      steps: [
+        { from:"dose_alert",  to:"app_state",   method:"skipDose(doseId)",               ann:"String doseId" },
+        { from:"app_state",   to:"dose_repo",   method:"update(dose)",                   ann:"DoseEvent: status='skipped', pausedUntil=null" },
+        { from:"dose_repo",   to:"sqlite",      method:"db.update('doses', …)",          ann:"status='skipped'" },
+        { from:"app_state",   to:"notif_sched", method:"reschedule(…)",                  ann:"Skipped dose excluded from all slots" },
+        { from:"notif_sched", to:"notif_svc",   method:"cancelAll() + reschedule",       ann:"Slot may now have fewer medicines or disappear entirely" }
+      ]
+    },
+
+    suspend_med: {
+      label: "Suspend Medication",
+      color: "#ff7b72",
+      desc:  "User suspends a medication. All future doses are cancelled and notifications cleared.",
+      steps: [
+        { from:"prescription", to:"app_state",  method:"suspendMedication(medId)",       ann:"String medId from three-dot menu" },
+        { from:"app_state",    to:"med_repo",   method:"update(medication)",             ann:"Medication: status='suspended'" },
+        { from:"med_repo",     to:"sqlite",     method:"db.update('medications', …)",    ann:"status field updated" },
+        { from:"app_state",    to:"dose_repo",  method:"update(dose) × N future doses", ann:"All pending future DoseEvents: status='skipped'" },
+        { from:"dose_repo",    to:"sqlite",     method:"db.update('doses', …) × N",     ann:"Bulk status update for all future pending doses" },
+        { from:"app_state",    to:"notif_sched",method:"reschedule(…)",                  ann:"Suspended med excluded; its slots may disappear or shrink" },
+        { from:"notif_sched",  to:"notif_svc",  method:"cancelAll() + fewer slots",      ann:"Notifications for suspended med removed from queue" }
+      ]
+    },
+
+    repeat_order: {
+      label: "Low Stock → Order → Restock",
+      color: "#39d353",
+      desc:  "Stock drops below threshold. User marks repeat as ordered, then updates quantity when supply arrives.",
+      steps: [
+        { from:"app_state",   to:"stock_svc",   method:"isLowStock(medication)",         ann:"Compares current stock vs (dosesPerDay × lowStockDays threshold)" },
+        { from:"app_state",   to:"notif_svc",   method:"scheduleDose(id, 'Low Stock', …)",ann:"Immediate notification (scheduled=DateTime.now())" },
+        { from:"notif_svc",   to:"phone_notifs",method:"Immediate notification fires",   ann:"'You have less than N days of [Med] remaining'" },
+        { from:"app_state",   to:"low_stock",   method:"lowStockAlerts getter",          ann:"AppBar turns orange. lowStockAlerts list shown in Low Stock screen." },
+        { from:"low_stock",   to:"app_state",   method:"markRepeatOrdered(medId)",       ann:"String medId" },
+        { from:"app_state",   to:"shared_prefs",method:"setInt('repeatOrdered_<id>')",   ann:"Timestamp of order. Suppresses low stock alert for repeatOrderWaitDays." },
+        { from:"edit_med",    to:"app_state",   method:"saveMedication(med)",            ann:"Updated Medication with new stock quantity when supply arrives" },
+        { from:"app_state",   to:"med_repo",    method:"update(medication)",             ann:"New quantity persisted" },
+        { from:"med_repo",    to:"sqlite",      method:"db.update('medications', …)",    ann:"quantity field updated" }
+      ]
+    }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER ENGINE
+// ═══════════════════════════════════════════════════════════════════
+const BW = 120, BH = 42;
+const SVG_NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("diagram");
+let activeFlow = null;
+
+// Layer colour lookup
+function layerColor(layerId) {
+  return DATA.layers.find(l => l.id === layerId)?.color || "#666";
+}
+
+// Create SVG element helper
+function el(tag, attrs = {}, children = []) {
+  const e = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  children.forEach(c => e.appendChild(c));
+  return e;
+}
+
+// ── Build defs (arrowhead markers) ─────────────────────────────────
+function buildDefs() {
+  const defs = el("defs");
+  const colors = [...new Set(Object.values(DATA.flows).map(f => f.color))];
+  colors.forEach(c => {
+    const marker = el("marker", {
+      id: "arrowhead-" + c.replace("#",""),
+      markerWidth:"10", markerHeight:"7",
+      refX:"9", refY:"3.5", orient:"auto"
+    });
+    marker.appendChild(el("polygon", { points:"0 0,10 3.5,0 7", fill: c }));
+    defs.appendChild(marker);
+  });
+  svg.appendChild(defs);
+}
+
+// ── Draw layer strips ───────────────────────────────────────────────
+function buildLayers() {
+  DATA.layers.forEach(layer => {
+    const g = el("g");
+    g.style.setProperty("--lc", layer.color);
+    g.appendChild(el("rect", {
+      class:"layer-strip", x:4, y:layer.y, width:1052, height:layer.h
+    }));
+    g.appendChild(Object.assign(document.createElementNS(SVG_NS,"text"), {
+      className:"layer-lbl"
+    }));
+    const txt = el("text", { class:"layer-lbl", x:10, y: layer.y + layer.h - 8 });
+    txt.style.setProperty("--lc", layer.color);
+    txt.textContent = layer.label;
+    g.appendChild(txt);
+    svg.appendChild(g);
+  });
+}
+
+// ── Draw component boxes ────────────────────────────────────────────
+function buildComponents() {
+  Object.entries(DATA.components).forEach(([id, comp]) => {
+    const lc = layerColor(comp.layer);
+    const g = el("g", { id:"comp-"+id, class:"comp-g", "data-id":id });
+    g.style.setProperty("--lc", lc);
+
+    g.appendChild(el("rect", {
+      class:"comp-rect", x:comp.x, y:comp.y, width:BW, height:BH
+    }));
+
+    const hasSubLabel = comp.sub && comp.sub.length;
+    const mainY = comp.y + (hasSubLabel ? BH*0.38 : BH*0.5);
+    const lbl = el("text", { class:"comp-label", x: comp.x + BW/2, y: mainY });
+    lbl.textContent = comp.label;
+    g.appendChild(lbl);
+
+    if (hasSubLabel) {
+      const sub = el("text", { class:"comp-sublabel", x: comp.x + BW/2, y: comp.y + BH*0.68 });
+      sub.textContent = comp.sub;
+      g.appendChild(sub);
+    }
+
+    svg.appendChild(g);
+  });
+}
+
+// ── Arrow path calculation ──────────────────────────────────────────
+function anchorPoints(from, to, offsetX) {
+  const fc = DATA.components[from];
+  const tc = DATA.components[to];
+  if (!fc || !tc) return null;
+
+  // same component (self-loop): skip
+  if (from === to) return null;
+
+  const fx = fc.x + BW/2 + offsetX;
+  const tx = tc.x + BW/2 + offsetX;
+  const sameRow = Math.abs(fc.y - tc.y) < 10;
+
+  if (sameRow) {
+    const goRight = tc.x > fc.x;
+    const sx = goRight ? fc.x + BW : fc.x;
+    const ex = goRight ? tc.x      : tc.x + BW;
+    const my = fc.y + BH/2;
+    const cpx = (sx + ex) / 2;
+    return { path:`M ${sx} ${my} C ${cpx} ${my-22} ${cpx} ${my+22} ${ex} ${my}`, mx:(sx+ex)/2, my };
+  }
+
+  const goingDown = tc.y > fc.y;
+  const sy = goingDown ? fc.y + BH : fc.y;
+  const ey = goingDown ? tc.y      : tc.y + BH;
+  const midY = (sy + ey) / 2;
+  return { path:`M ${fx} ${sy} C ${fx} ${midY} ${tx} ${midY} ${tx} ${ey}`, mx:(fx+tx)/2, my:midY };
+}
+
+// ── Render a flow ───────────────────────────────────────────────────
+// Arrows group sits under components
+const arrowLayer = el("g", { id:"arrow-layer" });
+svg.insertBefore(arrowLayer, svg.firstChild?.nextSibling || null);
+
+function clearFlow() {
+  arrowLayer.innerHTML = "";
+  document.querySelectorAll(".comp-g").forEach(g => {
+    g.classList.remove("active","dimmed");
+  });
+  document.querySelectorAll(".step-card").forEach(c => c.classList.remove("hi"));
+}
+
+function renderFlow(flowId) {
+  clearFlow();
+  if (!flowId || !DATA.flows[flowId]) return;
+
+  const flow = DATA.flows[flowId];
+  const fc = flow.color;
+
+  // Collect active component ids
+  const activeIds = new Set();
+  flow.steps.forEach(s => { activeIds.add(s.from); activeIds.add(s.to); });
+
+  // Dim/highlight components
+  document.querySelectorAll(".comp-g").forEach(g => {
+    const id = g.getAttribute("data-id");
+    if (activeIds.has(id)) g.classList.add("active");
+    else g.classList.add("dimmed");
+  });
+
+  // Track pair offsets for duplicate from-to
+  const pairCount = {};
+  flow.steps.forEach(s => {
+    const key = s.from + ">" + s.to;
+    pairCount[key] = (pairCount[key] || 0) + 1;
+  });
+  const pairIndex = {};
+
+  // Draw arrows
+  flow.steps.forEach((step, i) => {
+    const key = step.from + ">" + step.to;
+    pairIndex[key] = (pairIndex[key] || 0);
+    const count = pairCount[key];
+    const offsetX = count > 1 ? (pairIndex[key] - (count-1)/2) * 14 : 0;
+    pairIndex[key]++;
+
+    const anc = anchorPoints(step.from, step.to, offsetX);
+    if (!anc) return;
+
+    const path = el("path", {
+      class:"flow-path",
+      d: anc.path,
+      stroke: fc,
+      "stroke-dasharray": "none",
+      "marker-end": `url(#arrowhead-${fc.replace("#","")})`
+    });
+    arrowLayer.appendChild(path);
+    requestAnimationFrame(() => path.classList.add("show"));
+
+    // Step number badge
+    const badge = el("g", { class:"step-bubble", "data-step":i });
+    badge.appendChild(el("circle", { cx: anc.mx, cy: anc.my, r:9, fill: fc }));
+    const num = el("text", { class:"step-text", x: anc.mx, y: anc.my });
+    num.textContent = i + 1;
+    badge.appendChild(num);
+    arrowLayer.appendChild(badge);
+    requestAnimationFrame(() => badge.classList.add("show"));
+
+    // Method label (shown near midpoint, offset slightly)
+    const lbl = el("text", {
+      class:"arrow-lbl",
+      x: anc.mx,
+      y: anc.my - 14,
+      fill: fc
+    });
+    lbl.textContent = step.method;
+    arrowLayer.appendChild(lbl);
+    requestAnimationFrame(() => lbl.classList.add("show"));
+  });
+}
+
+// ── Build sidebar buttons ───────────────────────────────────────────
+function buildSidebar() {
+  const container = document.getElementById("flow-btns");
+  Object.entries(DATA.flows).forEach(([id, flow]) => {
+    const btn = document.createElement("button");
+    btn.className = "flow-btn";
+    btn.setAttribute("data-flow", id);
+    btn.style.setProperty("--fc", flow.color);
+    btn.innerHTML = `<span class="dot"></span>${flow.label}`;
+    btn.addEventListener("click", () => selectFlow(id));
+    container.appendChild(btn);
+  });
+}
+
+// ── Build step panel ────────────────────────────────────────────────
+function buildStepPanel(flowId) {
+  const flow = DATA.flows[flowId];
+  const fc = flow.color;
+
+  document.getElementById("empty-state").style.display = "none";
+  const content = document.getElementById("panel-content");
+  content.style.display = "block";
+  content.style.setProperty("--fc", fc);
+
+  document.getElementById("panel-title").textContent = flow.label;
+  document.getElementById("panel-title").style.color = fc;
+  document.getElementById("panel-desc").textContent = flow.desc;
+
+  const list = document.getElementById("steps-list");
+  list.innerHTML = "";
+
+  flow.steps.forEach((step, i) => {
+    const fc_ = DATA.components[step.from];
+    const tc_ = DATA.components[step.to];
+    const fromLabel = (fc_?.label || step.from) + (fc_?.sub ? " " + fc_.sub : "");
+    const toLabel   = (tc_?.label || step.to)   + (tc_?.sub ? " " + tc_.sub   : "");
+
+    const card = document.createElement("div");
+    card.className = "step-card";
+    card.setAttribute("data-step", i);
+    card.style.setProperty("--fc", fc);
+    card.innerHTML = `
+      <div class="step-n">Step ${i+1}</div>
+      <div class="step-route">
+        ${fromLabel} <span class="sep">→</span> ${toLabel}
+      </div>
+      <div class="step-method">${step.method}</div>
+      <div class="step-ann">${step.ann}</div>
+    `;
+    card.addEventListener("mouseenter", () => {
+      document.querySelectorAll(".step-card").forEach(c => c.classList.remove("hi"));
+      card.classList.add("hi");
+    });
+    list.appendChild(card);
+  });
+}
+
+// ── Select a flow ───────────────────────────────────────────────────
+function selectFlow(flowId) {
+  if (activeFlow === flowId) {
+    activeFlow = null;
+    clearFlow();
+    document.querySelectorAll(".flow-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("empty-state").style.display = "flex";
+    document.getElementById("panel-content").style.display = "none";
+    return;
+  }
+  activeFlow = flowId;
+  document.querySelectorAll(".flow-btn").forEach(b => {
+    b.classList.toggle("active", b.getAttribute("data-flow") === flowId);
+  });
+  renderFlow(flowId);
+  buildStepPanel(flowId);
+}
+
+// ── Init ────────────────────────────────────────────────────────────
+buildDefs();
+buildLayers();
+
+// Insert arrow layer after defs
+svg.appendChild(arrowLayer);
+
+buildComponents();
+buildSidebar();
+</script>
+</body>
+</html>
