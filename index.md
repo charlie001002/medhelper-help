@@ -54,7 +54,14 @@ When a dose is due, the top bar turns red and shows **Take Medication**. Tap thr
 You can also record doses from the **Today** tab, which shows everything due today and lets you mark them off as you go.
 
 ### What if I took a dose but forgot to record it at the time?
-Open the **Today** tab, find the dose, and tap **Take**. It will be recorded as taken.
+Open the **Today** tab and find the dose. If you cannot see it, the active filter may be hiding doses that are already marked — tap the filter icon on the left of the Today header to show all doses.
+
+Tap **Take** to record it. If you also need to correct the time it was taken:
+
+1. Tap the **pencil icon** next to the medicine name to open the dose edit sheet.
+2. Tap the time shown under "Taken at" and adjust it.
+3. You can also correct the quantity taken or add a note at this point.
+4. Tap **Save** when done.
 
 ### What happens if I miss a dose?
 It stays listed on the Today screen and in your history. You can still mark it as taken or skip it.
@@ -158,7 +165,7 @@ The Reports tab has five sections:
 
 **Meds** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your doctor or pharmacist.
 
-**History** — a log of every dose recorded, filterable by medicine. Shows taken, skipped, and missed doses over time.
+**History** — a timeline of prescription events for each medicine: when it was first added, when the dose or frequency was changed, and when it was suspended or resumed. You can add your own notes to any event — for example, who prescribed the medicine, or the reason for a dose change. Tap the note icon on any entry to add or edit a note.
 
 **Stats** — adherence statistics showing how consistently each medicine has been taken over the last day, 7 days, or 30 days.
 
