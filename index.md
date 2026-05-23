@@ -1,11 +1,16 @@
 ---
-layout: home
+layout: default
 title: MedHelper — Help & FAQ
 ---
 
-# MedHelper — Frequently Asked Questions
+<div class="mh-hero">
+  <img src="{{ '/assets/images/app_icon.png' | relative_url }}" alt="MedHelper app icon">
+  <div>
+    <h1>MedHelper</h1>
+    <p>Help &amp; FAQ</p>
+  </div>
+</div>
 
----
 
 ## Getting Started
 

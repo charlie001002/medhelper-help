@@ -4,7 +4,13 @@ title: Privacy Policy
 permalink: /privacy/
 ---
 
-# Privacy Policy — MedHelper
+<div class="mh-hero">
+  <img src="{{ '/assets/images/app_icon.png' | relative_url }}" alt="MedHelper app icon">
+  <div>
+    <h1>MedHelper</h1>
+    <p>Privacy Policy</p>
+  </div>
+</div>
 
 **Last updated: 23 May 2026**
 

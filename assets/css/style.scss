@@ -1,0 +1,85 @@
+---
+---
+
+$brand-color: #1565C0;
+$link-base-color: #1565C0;
+$link-hover-color: #0d47a1;
+
+@import "minima";
+
+/* ── Site header ───────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, #1565C0, #1e88e5);
+  border-top: none;
+  border-bottom: none;
+
+  .site-title,
+  .site-title:visited {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .site-nav {
+    .page-link { color: rgba(255,255,255,0.9); }
+    .page-link:hover { color: #fff; }
+
+    @media screen and (max-width: 600px) {
+      background-color: #1565C0;
+      border: 1px solid rgba(255,255,255,0.3);
+      .page-link { color: #fff; }
+    }
+  }
+}
+
+/* ── Page hero banner ──────────────────────────────────────── */
+.mh-hero {
+  background: linear-gradient(135deg, #1565C0, #1e88e5);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 32px;
+
+  img {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    color: #fff;
+    margin: 0 0 4px 0;
+    font-size: 1.6rem;
+    border: none;
+  }
+
+  p {
+    color: rgba(255,255,255,0.85);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
+
+/* ── Tables ────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  th {
+    background-color: #1565C0;
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  td { padding: 7px 12px; }
+  tr:nth-child(even) td { background-color: #f0f4ff; }
+  tr:nth-child(odd)  td { background-color: #fff; }
+}
+
+/* ── Headings accent ───────────────────────────────────────── */
+h2 { border-bottom: 2px solid #1565C0; padding-bottom: 4px; }
