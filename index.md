@@ -31,13 +31,13 @@ When you first set up MedHelper you choose between two modes, and you can switch
 ## Adding Medicines
 
 ### How do I add a medicine?
-1. Go to the **Prescriptions** tab
+1. Go to the **Meds** tab
 2. Tap **+ Add Prescription**
 3. Start typing the medicine name — MedHelper will suggest matches from a built-in medicines list
 4. Select the correct medicine, then fill in how many times a day you take it, the times, and how much you currently have
 5. Tap **Save**
 
-### What if my medicine isn't in the suggestions?
+### What if my medicine is not in the suggestions?
 You can type any name you like and save it manually. The suggestions list covers most UK prescription medicines but may not include every product.
 
 ### What is the difference between a scheduled and an unscheduled medicine?
@@ -86,9 +86,15 @@ If you have not recorded a dose after a short grace period, MedHelper sends a se
 If you recorded your doses after the grace period had already passed, the overdue notification may still arrive. You can dismiss it — your records are correct.
 
 ### My notifications are not appearing
-- Check that MedHelper has permission to send notifications in your phone's Settings app
-- Make sure you are in **Real-time** mode — look for the small chip in the top right of the app header. If it says **Offline**, notifications are turned off
-- On iPhone, try closing and reopening the app
+Work through these steps in order:
+
+1. **Check you are in Real-time mode** — look at the chip in the top-right of the app header. It should say **Real-time**. If it says **Offline**, notifications are turned off. You can switch mode in **Settings**.
+
+2. **Check the notification toggle on the Today screen** — on the right-hand side of the Today header there is a small switch with a bell icon. Make sure it is switched **on**. If it is off, notifications are silenced within the app regardless of your phone settings.
+
+3. **Check your phone notification settings** — go to your iPhone **Settings app** and find **MedHelper**. Make sure notifications are enabled.
+
+4. **Close and reopen MedHelper** — swipe the app away completely and reopen it. This refreshes the notification schedule.
 
 ---
 
@@ -98,11 +104,11 @@ If you recorded your doses after the grace period had already passed, the overdu
 When you add a medicine, you enter how much you currently have. Each time you record a dose as taken, MedHelper deducts that amount automatically. When the remaining supply drops below your alert threshold, you will receive a low stock alert.
 
 ### When does the low stock alert appear?
-- For medicines taken at fixed times: when you have fewer than a set number of days' supply left (you can change this in **Settings**)
+- For medicines taken at fixed times: when you have fewer than a set number of days of supply left (you can change this in **Settings**)
 - For medicines taken as needed: when you have fewer than a set number of doses left
 
 ### What should I do when I get a low stock alert?
-Order your repeat prescription. Once you have done so, tap **Mark as ordered** on the alert — MedHelper will hold off on reminding you again while you wait for it to arrive.
+Order your repeat prescription. Once you have done so, tap **Mark as ordered** on the alert — MedHelper will hold off on reminding you again while you wait for it to arrive. The ordered status clears automatically when you update your stock.
 
 ---
 
@@ -112,10 +118,10 @@ Order your repeat prescription. Once you have done so, tap **Mark as ordered** o
 Suspending stops all reminders and tracking for a medicine without deleting it. Use it if you have been told to stop taking something temporarily — for example, before an operation, or while a side effect is being investigated.
 
 ### How do I suspend a medicine?
-Go to **Prescriptions**, tap the three dots next to the medicine, and select **Suspend**. It will be greyed out and no further reminders will be sent.
+Go to the **Meds** tab, tap the three dots next to the medicine, and select **Suspend**. It will be greyed out and no further reminders will be sent.
 
 ### How do I start taking it again?
-Go to **Prescriptions**, find the suspended medicine, tap the three dots, then **Resume**. MedHelper will start scheduling future doses.
+Go to the **Meds** tab, find the suspended medicine, tap the three dots, then **Resume**. MedHelper will start scheduling future doses.
 
 ---
 
@@ -123,34 +129,38 @@ Go to **Prescriptions**, find the suspended medicine, tap the three dots, then *
 
 ### When would I use Offline mode?
 Offline mode is useful when:
-- You are helping someone else manage their medicines and you don't want phone alerts
+- You are helping someone else manage their medicines and you do not want phone alerts
 - You prefer to work from a printed daily or weekly schedule rather than receiving notifications
 - You are setting up medicines in advance and do not want alerts until you are ready
 
 ### How do I switch to Offline mode?
-Go to **Settings → App Mode** and move the toggle to **Offline**. The chip in the app header will change from **Real-time** to **Offline**.
+Go to **Settings** and use the **Real-time / Offline** toggle under App Mode. The chip in the app header will change from **Real-time** to **Offline**.
 
 ### Can I print a medicine schedule in Offline mode?
-Yes. Go to the **Reports** tab and open the **Checklist** section. You can print or export a daily or weekly dose checklist — useful for carers, anyone who doesn't have a suitable phone, or anyone who prefers a paper record.
+Yes. Go to the **Reports** tab and open the **Doses** tab. You can print or export a daily or weekly dose checklist — useful for carers, anyone who does not have a suitable phone, or anyone who prefers a paper record.
 
-### What is "Auto-clear past doses"?
+### What is Auto-clear past doses?
 This is an Offline mode option found in **Settings**. When switched on, any doses that were due the previous day and were not recorded are automatically marked as taken when you open the app. This is useful when you are using a printed checklist and only want to update the app periodically, without having to manually clear a backlog of pending doses each time.
 
 ### Can I switch back to Real-time mode later?
-Yes, at any time in **Settings → App Mode**. Your medicines and history are unchanged.
+Yes, at any time in **Settings**. Your medicines and history are unchanged.
 
 ---
 
 ## Reports
 
 ### What is in the Reports tab?
-The Reports tab has three sections:
+The Reports tab has five sections:
 
-**Checklist** — a printable daily or weekly schedule of all your medicines and their dose times. Useful for tracking without a phone.
+**Doses** — a printable daily or weekly checklist of all your medicines and their dose times. Useful for tracking on paper or sharing with a carer.
 
 **Stock** — a summary of current stock levels for all your medicines, highlighting anything that is running low. Can be printed.
 
-**Medications** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your medical professional.
+**Meds** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your doctor or pharmacist.
+
+**History** — a log of every dose recorded, filterable by medicine. Shows taken, skipped, and missed doses over time.
+
+**Stats** — adherence statistics showing how consistently each medicine has been taken over the last day, 7 days, or 30 days.
 
 ### Can I print or share a report?
 Yes. Each section has a print or export button. On a phone this uses the standard print dialogue so you can send to a printer, save as a PDF, or share via email or another app.
@@ -163,7 +173,7 @@ Yes. Each section has a print or export button. On a phone this uses the standar
 No. MedHelper is a personal organisation tool to help you keep track of your medicines. It does not provide medical advice and does not replace the instructions of your doctor, pharmacist, or other healthcare professional. Always follow your prescription label and any guidance you have been given.
 
 ### What if I am not sure whether I have taken a dose?
-If you are unsure, do not take an extra dose. Contact your pharmacist or GP for advice. MedHelper's records can help you check what was recorded, but they depend on you having marked doses correctly.
+If you are unsure, do not take an extra dose. Contact your pharmacist or GP for advice. MedHelper records can help you check what was recorded, but they depend on you having marked doses correctly.
 
 ### What should I do in an emergency?
 MedHelper is not for emergencies. Call **999** or go to your nearest A&E immediately.
