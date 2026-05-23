@@ -3,14 +3,13 @@ layout: default
 title: MedHelper — Help & FAQ
 ---
 
-<div class="mh-hero">
-  <img src="{{ '/assets/images/app_icon.png' | relative_url }}" alt="MedHelper app icon">
+<div style="background: linear-gradient(135deg, #1565C0, #1e88e5); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 28px;">
+  <img src="{{ '/assets/images/app_icon.png' | relative_url }}" alt="MedHelper app icon" style="width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;">
   <div>
-    <h1>MedHelper</h1>
-    <p>Help &amp; FAQ</p>
+    <div style="color: white; margin: 0; font-size: 1.4rem; font-weight: 700;">MedHelper</div>
+    <div style="color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-top: 2px;">Help &amp; FAQ</div>
   </div>
 </div>
-
 
 ## Getting Started
 
