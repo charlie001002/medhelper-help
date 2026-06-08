@@ -27,18 +27,32 @@ When you first set up MedHelper you choose between two modes, and you can switch
 ## Adding Medicines
 
 ### How do I add a medicine?
-1. Go to the **Prescriptions** tab
+1. Go to the **Meds** tab
 2. Tap **+ Add Prescription**
 3. Start typing the medicine name — MedHelper will suggest matches from a built-in medicines list
 4. Select the correct medicine, then fill in how many times a day you take it, the times, and how much you currently have
 5. Tap **Save**
+
+After saving, a brief message at the bottom of the screen will tell you when your first dose is due.
 
 ### What if my medicine isn't in the suggestions?
 You can type any name you like and save it manually. The suggestions list covers most UK prescription medicines but may not include every product.
 
 ### What is the difference between a scheduled and an unscheduled medicine?
 - **Scheduled** medicines are taken at fixed times each day — for example, a blood pressure tablet at 8 AM and 8 PM. MedHelper tracks each individual dose and can remind you when one is due.
-- **Unscheduled** medicines are taken as needed — for example, a painkiller or an inhaler. MedHelper tracks how much you have left but does not set reminders.
+- **Unscheduled** medicines are taken as needed — for example, a painkiller or an inhaler. MedHelper tracks how much you have left but does not set reminders. To record an unscheduled dose, go to the **Today** tab and tap the **+** button next to the medicine.
+
+### How do I set up a medicine I take every few days (e.g. once a week)?
+When adding or editing a prescription, set **Frequency** to *Every N days* and enter the number of days between doses (e.g. 7 for weekly). Set the start date to the date of the first dose — this is the anchor from which MedHelper calculates all future dose days.
+
+For example, a weekly tablet starting on a Monday will be due every Monday. If you open the app on a Tuesday, no dose is shown — the next one is the following Monday.
+
+Stock coverage is calculated correctly for period medicines: MedHelper works out how many doses you have left and multiplies by the interval to give you the days remaining.
+
+### What happens if I change a prescription?
+If you change only the schedule, frequency, or dose quantity — the same physical tablets — your stock count carries over unchanged.
+
+If you change the **medicine name** (for example updating "Paracetamol 500mg" to "Paracetamol 1000mg" after a dose increase), the stock count is cleared, because the old tablets are a different product. Add the quantity of the new tablets after saving.
 
 ---
 
@@ -48,6 +62,9 @@ You can type any name you like and save it manually. The suggestions list covers
 When a dose is due, the top bar turns red and shows **Take Medication**. Tap through to see which doses are due — each one has a green **Take** button. Tapping it records the dose and updates your stock automatically.
 
 You can also record doses from the **Today** tab, which shows everything due today and lets you mark them off as you go.
+
+### How do I take an as-required (unscheduled) medicine?
+Go to the **Today** tab and tap the **+** button next to the medicine. Enter the quantity taken if it differs from the usual amount. The dose is recorded immediately and stock is updated.
 
 ### What if I took a dose but forgot to record it at the time?
 Open the **Today** tab, find the dose, and tap **Take**. It will be recorded as taken.
@@ -78,6 +95,9 @@ No. If several medicines are due at the same time, MedHelper sends a single noti
 ### What is the overdue alert?
 If you have not recorded a dose after a short grace period, MedHelper sends a second, more urgent notification — for example, *"⚠️ Aspirin is overdue — please take it now"*. The grace period is how long after the scheduled time before this second alert fires, and you can adjust it in **Settings**.
 
+### What happens when I tap a notification?
+Tapping a dose reminder or overdue notification opens MedHelper directly on the **Today** tab, wherever you are in the app. From there you can take, skip, or pause the dose.
+
 ### I took my doses but still received an overdue notification
 If you recorded your doses after the grace period had already passed, the overdue notification may still arrive. You can dismiss it — your records are correct.
 
@@ -85,6 +105,19 @@ If you recorded your doses after the grace period had already passed, the overdu
 - Check that MedHelper has permission to send notifications in your phone's Settings app
 - Make sure you are in **Real-time** mode — look for the small chip in the top right of the app header. If it says **Offline**, notifications are turned off
 - On iPhone, try closing and reopening the app
+
+---
+
+## Tab Badges and App Icon
+
+### What do the numbers on the tabs mean?
+- **Today tab badge** — the number of doses still to take today (doses scheduled for today whose time has already passed and have not been taken or skipped). This does *not* include overdue doses from previous days.
+- **Meds tab badge** — the number of medicines with stock below your low-stock threshold (medicines you need to reorder).
+
+Both counts update instantly when you take a dose, pause a dose, top up stock, or mark a repeat prescription as ordered.
+
+### What does the number on the app icon mean?
+The app icon badge shows the combined total: doses still to take today plus medicines to reorder. It updates every time you take an action in the app. In Offline mode the dose count is always zero, but the Meds reorder count still appears so you know if you need to order more tablets.
 
 ---
 
@@ -107,11 +140,13 @@ Order your repeat prescription. Once you have done so, tap **Mark as ordered** o
 ### What does suspending a medicine do?
 Suspending stops all reminders and tracking for a medicine without deleting it. Use it if you have been told to stop taking something temporarily — for example, before an operation, or while a side effect is being investigated.
 
+When you suspend a medicine, all future scheduled doses are removed. This is intentional — a clinical hold means those doses should not happen, and keeping them would distort your history and stock count.
+
 ### How do I suspend a medicine?
-Go to **Prescriptions**, tap the three dots next to the medicine, and select **Suspend**. It will be greyed out and no further reminders will be sent.
+Go to **Meds**, tap the three dots next to the medicine, and select **Suspend**. You can also tap the medicine to open it and use the **Active / Suspended** toggle near the top of the edit screen. The medicine will be greyed out and no further reminders will be sent.
 
 ### How do I start taking it again?
-Go to **Prescriptions**, find the suspended medicine, tap the three dots, then **Resume**. MedHelper will start scheduling future doses.
+Go to **Meds**, find the suspended medicine, tap the three dots, then **Resume** — or open the medicine and toggle it back to **Active**. MedHelper will start scheduling doses from today, as if the medicine had just been added.
 
 ---
 
@@ -127,7 +162,7 @@ Offline mode is useful when:
 Go to **Settings → App Mode** and move the toggle to **Offline**. The chip in the app header will change from **Real-time** to **Offline**.
 
 ### Can I print a medicine schedule in Offline mode?
-Yes. Go to the **Reports** tab and open the **Checklist** section. You can print or export a daily or weekly dose checklist — useful for carers, anyone who doesn't have a suitable phone, or anyone who prefers a paper record.
+Yes. Go to the **Reports** tab and open the **Doses** section. You can print or export a daily or weekly dose checklist — useful for carers, anyone who doesn't have a suitable phone, or anyone who prefers a paper record.
 
 ### What is "Auto-clear past doses"?
 This is an Offline mode option found in **Settings**. When switched on, any doses that were due the previous day and were not recorded are automatically marked as taken when you open the app. This is useful when you are using a printed checklist and only want to update the app periodically, without having to manually clear a backlog of pending doses each time.
@@ -140,13 +175,17 @@ Yes, at any time in **Settings → App Mode**. Your medicines and history are un
 ## Reports
 
 ### What is in the Reports tab?
-The Reports tab has three sections:
+The Reports tab has five sections:
 
-**Checklist** — a printable daily or weekly schedule of all your medicines and their dose times. Useful for tracking without a phone.
+**Doses** — a printable daily or weekly schedule of all your medicines and their dose times. Useful for tracking without a phone.
 
 **Stock** — a summary of current stock levels for all your medicines, highlighting anything that is running low. Can be printed.
 
-**Medications** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your medical professional.
+**Meds** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your medical professional.
+
+**History** — a timeline of changes to your prescriptions: when medicines were added, doses changed, or medicines suspended or stopped, along with any notes you have added about why.
+
+**Stats** — adherence statistics showing how consistently you have been taking your medicines over time.
 
 ### Can I print or share a report?
 Yes. Each section has a print or export button. On a phone this uses the standard print dialogue so you can send to a printer, save as a PDF, or share via email or another app.
