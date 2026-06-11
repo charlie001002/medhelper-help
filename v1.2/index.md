@@ -192,6 +192,21 @@ Yes. Each section has a print or export button. On a phone this uses the standar
 
 ---
 
+## Moving to a New iPhone
+
+### Will my medicines and history move to my new phone?
+Yes. MedHelper's data is included in Apple's normal phone transfer — both the direct phone-to-phone transfer during new phone setup and an iCloud backup restore. Your medicines, dose history, and settings all come across.
+
+### Is there anything I need to do after moving?
+1. Make sure MedHelper is installed on the new phone
+2. Open MedHelper once — this sets up your reminders again on the new phone
+3. If asked, allow notifications — reminders cannot be delivered without this
+
+### My reminders stopped after changing phone
+Scheduled reminders do not transfer between phones — they are recreated the first time you open MedHelper on the new device. Open the app, check the chip in the top corner says **Real-time**, and confirm notifications are allowed in your phone's Settings app.
+
+---
+
 ## Important Information
 
 ### Is MedHelper a medical device?
