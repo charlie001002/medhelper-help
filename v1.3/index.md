@@ -152,7 +152,7 @@ You can change the order yourself at any time with the **A–Z / Stock** buttons
 ## Suspending a Medicine
 
 ### What does suspending a medicine do?
-Suspending stops all reminders and tracking for a medicine without deleting it. Use it if you have been told to stop taking something temporarily — for example, before an operation, or while a side effect is being investigated.
+Suspending stops all reminders and tracking for a medicine without deleting it. Use it whenever you have been told to stop taking a medicine — whether temporarily or permanently. For example: before an operation, while a side effect is being investigated, or when a medicine is stopped for good. Suspending (rather than deleting) keeps the medicine’s full history available on the History tab.
 
 When you suspend a medicine, all future scheduled doses are removed. This is intentional — a clinical hold means those doses should not happen, and keeping them would distort your history and stock count.
 
@@ -195,7 +195,7 @@ The Reports tab has five sections:
 
 **Stock** — a summary of current stock levels for all your medicines, highlighting anything that is running low. Can be printed.
 
-**Meds** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your medical professional.
+**Meds** — a list of all your current prescriptions with details including dose, frequency, and dose times. Useful for sharing with your medical professional.
 
 **History** — a timeline of changes to your prescriptions: when medicines were added, doses changed, or medicines suspended or stopped, along with any notes you have added about why.
 
@@ -217,7 +217,7 @@ Yes. MedHelper's data is included in Apple's normal phone transfer — both the 
 3. If asked, allow notifications — reminders cannot be delivered without this
 
 ### My reminders stopped after changing phone
-Scheduled reminders do not transfer between phones — they are recreated the first time you open MedHelper on the new device. Open the app, check the chip in the top corner says **Real-time**, and confirm notifications are allowed in your phone's Settings app.
+Scheduled reminders do not transfer between phones — they are recreated the first time you open MedHelper on the new device. Open the app, check the chip in the top corner says **Real-time**, check the bell switch on the Today tab is on (blue), and confirm notifications are allowed in your phone's Settings app.
 
 ---
 

@@ -181,7 +181,7 @@ The Reports tab has five sections:
 
 **Stock** — a summary of current stock levels for all your medicines, highlighting anything that is running low. Can be printed.
 
-**Meds** — a list of all your current prescriptions with details including dose, frequency, and stock. Useful for sharing with your medical professional.
+**Meds** — a list of all your current prescriptions with details including dose, frequency, and dose times. Useful for sharing with your medical professional.
 
 **History** — a timeline of changes to your prescriptions: when medicines were added, doses changed, or medicines suspended or stopped, along with any notes you have added about why.
 
