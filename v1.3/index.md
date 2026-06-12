@@ -1,6 +1,6 @@
 ---
 layout: home
-title: MedHelper — Help & FAQ (v1.2)
+title: MedHelper — Help & FAQ (v1.3)
 ---
 
 # MedHelper — Frequently Asked Questions
@@ -101,9 +101,18 @@ Tapping a dose reminder or overdue notification opens MedHelper directly on the 
 ### I took my doses but still received an overdue notification
 If you recorded your doses after the grace period had already passed, the overdue notification may still arrive. You can dismiss it — your records are correct.
 
+### What does the bell switch on the Today screen do?
+The bell switch in the top corner of the Today tab turns notifications off temporarily without changing anything else — useful in a meeting or at the cinema. Doses still appear on the Today screen and the tab badges still update; you just won't receive alerts until you switch the bell back on.
+
+This is different from **Offline mode** (in Settings), which turns off all real-time tracking — in Offline mode there are no alerts at all and the red "Take Medication" header never appears.
+
+### Why did I get a notification saying "Open MedHelper to keep reminders running"?
+iPhones only allow a limited number of scheduled reminders, so MedHelper sets up roughly the next week's worth each time you open the app. If the app has not been opened for several days, the scheduled reminders run out. This notification is MedHelper's way of telling you that — open the app and the next batch of reminders is set up automatically.
+
 ### My notifications are not appearing
 - Check that MedHelper has permission to send notifications in your phone's Settings app
 - Make sure you are in **Real-time** mode — look for the small chip in the top right of the app header. If it says **Offline**, notifications are turned off
+- Check the bell switch on the Today tab is on (blue)
 - On iPhone, try closing and reopening the app
 
 ---
@@ -124,7 +133,7 @@ The app icon badge shows the combined total: doses still to take today plus medi
 ## Running Low on Medicine
 
 ### How does MedHelper know when I am running low?
-When you add a medicine, you enter how much you currently have. Each time you record a dose as taken, MedHelper deducts that amount automatically. When the remaining supply drops below your alert threshold, you will receive a low stock alert.
+When you add a medicine, you enter how much you currently have — you can include the unit, for example "28 tablets" or "150 ml", and MedHelper will keep it. Each time you record a dose as taken, MedHelper deducts that amount automatically. When the remaining supply drops below your alert threshold, you will receive a low stock alert.
 
 ### When does the low stock alert appear?
 - For medicines taken at fixed times: when you have fewer than a set number of days' supply left (you can change this in **Settings**)
@@ -132,6 +141,11 @@ When you add a medicine, you enter how much you currently have. Each time you re
 
 ### What should I do when I get a low stock alert?
 Order your repeat prescription. Once you have done so, tap **Repeat Ordered** on the alert — MedHelper will hold off on reminding you again while you wait for it to arrive.
+
+### Why has the Meds list changed order?
+The Meds tab normally lists your medicines alphabetically. When any medicine is running low, the list automatically switches to **stock order** — the medicines that need reordering soonest move to the top. Once everything has been reordered or topped up, the list returns to alphabetical.
+
+You can change the order yourself at any time with the **A–Z / Stock** buttons at the top of the Meds tab.
 
 ---
 
